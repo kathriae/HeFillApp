@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">HeFillApp</string>
+    <!-- Strings for buttons -->
+    <string name="start_new_fill_button">Start new He fill</string>
+    <string name="start_fill_button">Start fill</string>
+    <string name="fill_log_button">He fill log</string>
+    <string name="fill_instructions_button">He fill instructions</string>
+    <!-- Text -->
+    <string name="filling_instructions">Filling instructions</string>
+    <string name="enter_fill_parameters">Enter fill parameters</string>
+    <!-- Options -->
+    <string-array name="magnets_array">
+        <item>850 MHz new</item>
+        <item>850 MHz old</item>
+        <item>600 MHz</item>
+        <item>Other</item>
+    </string-array>
+    <string name="target_he_level">Target He level:</string>
+</resources>
