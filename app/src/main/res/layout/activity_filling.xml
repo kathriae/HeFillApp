@@ -17,10 +17,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/button_measure_He_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="measure he level"
+        android:text="@string/measure_he_level_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
@@ -35,12 +35,12 @@
         android:id="@+id/idGraphView"
         android:layout_width="275dp"
         android:layout_height="337dp"
-        android:layout_below="@id/button5"
+        android:layout_below="@id/button_measure_He_level"
         android:layout_marginBottom="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+        app:layout_constraintTop_toBottomOf="@+id/button_measure_He_level" />
 
     <Chronometer
         android:id="@+id/chronometer"

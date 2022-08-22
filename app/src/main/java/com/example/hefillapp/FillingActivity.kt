@@ -28,17 +28,25 @@ import kotlin.text.toDouble as toDouble
 class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewHeLevelAdded {
 
     // Widgets
-    lateinit var lineGraphView: GraphView
-    private var progressBar: ProgressBar? = null
+    private lateinit var lineGraphView: GraphView
+    private lateinit var progressBarHeLevel: ProgressBar
+    private lateinit var meter: Chronometer
+
+    // Constants
+    private val initialXLimUpper: Double = 50.0
+    private val initialXLimLower: Double = 0.0
+    private val yLimLower: Double = 20.0
+    private val yLimUpper: Double = 100.0
+    private val maxDataPoints: Int = 1000
 
     // Variables
-    val series: LineGraphSeries<DataPoint> = LineGraphSeries()
-    val seriesHorizontal: LineGraphSeries<DataPoint> = LineGraphSeries()
-    val seriesExtrapolation: LineGraphSeries<DataPoint> = LineGraphSeries()
-    var timeStart = LocalTime.now()
-    lateinit var timeNow: LocalTime
-    var elapsedSeconds: Double = 0.0
-    lateinit var targetLevel: String
+    private val seriesData: LineGraphSeries<DataPoint> = LineGraphSeries()
+    private val seriesHorizontal: LineGraphSeries<DataPoint> = LineGraphSeries()
+    private val seriesExtrapolation: LineGraphSeries<DataPoint> = LineGraphSeries()
+    private var timeStart: LocalTime = LocalTime.now()
+    private lateinit var timeNow: LocalTime
+    private var elapsedSeconds: Double = 0.0
+    private lateinit var targetLevel: String
     private var progressPercent = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +57,12 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         targetLevel = intent.getStringExtra("EXTRA_TARGET_LEVEL").toString()
 
         //Chronometer
-        val meter = findViewById<Chronometer>(R.id.chronometer)
+        findViewById<Chronometer>(R.id.chronometer).also { meter = it }
 
         //Progress Bar
-        progressBar = findViewById<ProgressBar>(R.id.progress_Bar) as ProgressBar
-        progressBar!!.max = targetLevel.toInt()
-        progressBar!!.progress = progressPercent
+        (findViewById<ProgressBar>(R.id.progress_Bar) as ProgressBar).also { progressBarHeLevel = it }
+        progressBarHeLevel.max = targetLevel.toInt()
+        progressBarHeLevel.progress = progressPercent
 
         // Create empty linegraph
         lineGraphView = findViewById(R.id.idGraphView)
@@ -64,24 +72,24 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         lineGraphView.viewport.setScalableY(true)
         lineGraphView.viewport.setScrollableY(true)
         // Set appearance of datapoints
-        series.color = R.color.purple_200
-        series.isDrawDataPoints = true
-        series.dataPointsRadius = 10F
-        series.thickness = 8
+        seriesData.color = R.color.purple_200
+        seriesData.isDrawDataPoints = true
+        seriesData.dataPointsRadius = 10F
+        seriesData.thickness = 8
         // Set limits and axes
-        lineGraphView.viewport.setMinX(0.0)
-        lineGraphView.viewport.setMaxX(50.0)
-        lineGraphView.viewport.setMinY(20.0)    //below this level the magnet is quenched anyway
-        lineGraphView.viewport.setMaxY(100.0)
+        lineGraphView.viewport.setMinX(initialXLimLower)
+        lineGraphView.viewport.setMaxX(initialXLimUpper)
+        lineGraphView.viewport.setMinY(yLimLower)
+        lineGraphView.viewport.setMaxY(yLimUpper)
         lineGraphView.viewport.isYAxisBoundsManual = true
         lineGraphView.viewport.isXAxisBoundsManual = true
-        lineGraphView.gridLabelRenderer.horizontalAxisTitle = "Time [s]"
-        lineGraphView.gridLabelRenderer.verticalAxisTitle = "He Level [%]"
+        lineGraphView.gridLabelRenderer.horizontalAxisTitle = getString(R.string.plot_He_level_Xlabel)
+        lineGraphView.gridLabelRenderer.verticalAxisTitle = getString(R.string.plot_He_level_YLabel)
 
         // Add horizontal line at target level
-        seriesHorizontal.resetData(arrayOf<DataPoint>(
-            DataPoint(0.0, targetLevel?.toDouble()!!),
-            DataPoint(50.0, targetLevel?.toDouble()!!)
+        seriesHorizontal.resetData(arrayOf(
+            DataPoint(initialXLimLower, targetLevel.toDouble()),
+            DataPoint(initialXLimUpper, targetLevel.toDouble())
         ))
         seriesHorizontal.color = R.color.purple_200
         lineGraphView.addSeries(seriesHorizontal)
@@ -91,10 +99,10 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         lineGraphView.addSeries(seriesExtrapolation)
 
         // Add series to plot
-        lineGraphView.addSeries(series)
+        lineGraphView.addSeries(seriesData)
 
         var clickCount = 0
-        val buttonView = findViewById<Button>(R.id.button5).setOnClickListener {
+        val buttonMeasureHeLevel = findViewById<Button>(R.id.button_measure_He_level).setOnClickListener {
             //check if button pressed the first time
             if(clickCount == 0) {
                 timeStart = LocalTime.now()
@@ -109,9 +117,9 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
                 elapsedSeconds = Duration.between(timeStart, timeNow).seconds.toDouble()
             }
 
-            //open dialog when button is clicked
-            var dialog = dialog_fragment_enter_he_level()
-            dialog.show(supportFragmentManager, "customDialog")
+            // Open adding He level dialog popup
+            val dialogMeasureLevel = dialog_fragment_enter_he_level()
+            dialogMeasureLevel.show(supportFragmentManager, "customDialog")
 
             clickCount++
         }
@@ -121,24 +129,23 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
     override fun receiveHeLevel(HeLevel: Double) {
 
         // Add point to data series
-        val newDataPoint = DataPoint(elapsedSeconds, HeLevel)
-        series.appendData(newDataPoint, false, 1000)
+        seriesData.appendData(DataPoint(elapsedSeconds, HeLevel), false, maxDataPoints)
 
         //reset the axis limits if necessary
-        if (elapsedSeconds > 50) {
+        if (elapsedSeconds > initialXLimUpper) {
             lineGraphView.viewport.setMaxX(elapsedSeconds + 10.0)
 
             // Extend horizontal line for target Level
-            seriesHorizontal.resetData(arrayOf<DataPoint>(
-                DataPoint(0.0, targetLevel?.toDouble()!!),
-                DataPoint(elapsedSeconds + 10.0, targetLevel?.toDouble()!!)
+            seriesHorizontal.resetData(arrayOf(
+                DataPoint(initialXLimLower, targetLevel.toDouble()),
+                DataPoint(elapsedSeconds + 10.0, targetLevel.toDouble())
             ))
         }
 
         // Create lists with X and Y values
         val listX: ArrayList<Double> = ArrayList()
         val listY: ArrayList<Double> = ArrayList()
-        for (element in series.getValues(0.0, elapsedSeconds)) {
+        for (element in seriesData.getValues(0.0, elapsedSeconds)) {
             listX.add(element.x)
             listY.add(element.y)
         }
@@ -159,15 +166,15 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
             meanRate /= (listX.size - 1).toDouble()
 
             // Compute expected time
-            deltaTarget = targetLevel?.toDouble()!! - listY.last()
+            deltaTarget = targetLevel.toDouble() - listY.last()
             deltaTarget = max(0.0, deltaTarget)
             expTimeAtMeanRate = deltaTarget/meanRate
             expTimeAtLastRate = deltaTarget/lastRate
 
             // Update linear extrapolation
-            seriesExtrapolation.resetData(arrayOf<DataPoint>(
+            seriesExtrapolation.resetData(arrayOf(
                 DataPoint(0.0, listY.first()),
-                DataPoint((100.0-listY.first())/max(meanRate, 0.0), 100.0)
+                DataPoint((yLimUpper-listY.first())/max(meanRate, 0.0), yLimUpper)
             ))
 
         }
@@ -180,7 +187,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         }
 
         // Update Progress Bar
-        progressBar!!.progress = listY.last().toInt()
+        progressBarHeLevel.progress = listY.last().toInt()
 
     }
 
