@@ -23,6 +23,7 @@
         android:id="@+id/button_main_fill_log"
         android:layout_width="363dp"
         android:layout_height="86dp"
+        android:onClick="openFillLog"
         android:text="@string/fill_log_button"
         app:layout_constraintBottom_toTopOf="@+id/button_main_fill_instructions"
         app:layout_constraintEnd_toEndOf="parent"

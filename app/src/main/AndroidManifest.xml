@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HeFillApp">
         <activity
+            android:name=".ViewFillLogEntryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FillLogActivity"
+            android:exported="false" />
+        <activity
             android:name=".FillingActivity"
             android:exported="false" />
         <activity

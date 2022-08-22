@@ -1,18 +1,21 @@
 package com.example.hefillapp
 
+import android.R.attr.data
+import android.app.PendingIntent.getActivity
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Chronometer
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hefillapp.com.example.hefillapp.DataBaseHandler
+import com.example.hefillapp.com.example.hefillapp.FillLogDataClass
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import java.time.Duration
 import java.time.LocalTime
 import kotlin.math.max
-import kotlin.text.toDouble as toDouble
+
 
 // TO - DO: KAAB: 04.08.2022
 // - clean up variable names and remove unnecessary stuff
@@ -48,6 +51,9 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
     private var elapsedSeconds: Double = 0.0
     private lateinit var targetLevel: String
     private var progressPercent = 0
+    // Create lists with X and Y values
+    val listX: ArrayList<Double> = ArrayList()
+    val listY: ArrayList<Double> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +130,19 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
             clickCount++
         }
 
+        // Functionality for stop button
+        findViewById<Button>(R.id.button_stop_fill).setOnClickListener{
+            // Create Data class to be saved in log
+            val ts = "ItemAdded"
+            var tl : Long = 0L
+            // this is how I can pass the final He level to my Log data class and use it for display later
+            tl = listY.last().toLong()
+            val testFillDataClass : FillLogDataClass = FillLogDataClass(0, ts, tl)
+
+            // Open stop fill dialog
+            stopFillAlertDialog(testFillDataClass)
+        }
+
     }
 
     override fun receiveHeLevel(HeLevel: Double) {
@@ -142,9 +161,9 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
             ))
         }
 
-        // Create lists with X and Y values
-        val listX: ArrayList<Double> = ArrayList()
-        val listY: ArrayList<Double> = ArrayList()
+        // Add current data to list
+        listX.clear()
+        listY.clear()
         for (element in seriesData.getValues(0.0, elapsedSeconds)) {
             listX.add(element.x)
             listY.add(element.y)
@@ -189,6 +208,62 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         // Update Progress Bar
         progressBarHeLevel.progress = listY.last().toInt()
 
+    }
+
+    // Dialog to open when stop button is pressed
+    fun stopFillAlertDialog(fillLogDataClass: FillLogDataClass) {
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle("Stop fill")
+        //set message for alert dialog
+        builder.setMessage("Do you want to save log file?")
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Yes and back to main") { dialogInterface, which ->
+            //add record to fill log
+            addRecord(fillLogDataClass)
+                Toast.makeText(
+                    applicationContext,
+                    "Record added ${fillLogDataClass.name}.",
+                    Toast.LENGTH_LONG
+                ).show()
+            dialogInterface.dismiss()
+
+            // Go back to main activity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        //performing negative action: dismiss and go back to main activity
+        builder.setNegativeButton("No and back to main") { dialogInterface, which ->
+            dialogInterface.dismiss()
+
+            // Go back to main activity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.show()
+    }
+
+    //Method for saving new entry in fill log
+    private fun addRecord(fillLogDataClass: FillLogDataClass) {
+        val databaseHandler: DataBaseHandler = DataBaseHandler(this)
+        if (!fillLogDataClass.name.isEmpty()) {
+            val status =
+                databaseHandler.addLogEntry(FillLogDataClass(0, fillLogDataClass.name, fillLogDataClass.final_he_level))
+            if (status > -1) {
+                Toast.makeText(applicationContext, "Record saved", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(
+                applicationContext,
+                "Name cannot be blank",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 }

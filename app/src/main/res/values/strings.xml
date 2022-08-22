@@ -6,11 +6,14 @@
     <string name="fill_log_button">He fill log</string>
     <string name="fill_instructions_button">He fill instructions</string>
     <string name="measure_he_level_button">Measure He Level</string>
+    <string name="stop_fill_button">Stop Fill</string>
     <!-- Text -->
     <string name="filling_instructions">Filling instructions</string>
     <string name="enter_fill_parameters">Enter fill parameters</string>
     <string name="plot_He_level_Xlabel">Time [s]</string>
     <string name="plot_He_level_YLabel">He Level [%]</string>
+    <string name="item_title_fill_log">Log file</string>
+    <string name="header_fill_log_activity">Fill log files</string>
     <!-- Options -->
     <string-array name="magnets_array">
         <item>850 MHz new</item>
