@@ -22,7 +22,7 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
     }
 
     private fun getItemsList(): ArrayList<FillLogDataClass> {
-        val databaseHandler: DataBaseHandler = DataBaseHandler(this)
+        val databaseHandler = DataBaseHandler(this)
         // Get list of records in database
         val RecordList: ArrayList<FillLogDataClass> = databaseHandler.viewRecord()
         return RecordList
@@ -30,13 +30,12 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
 
     // Interface for itemClick in RecyclerView
     override fun onItemClick(position: Int) {
-        val databaseHandler: DataBaseHandler = DataBaseHandler(this)
-        val record = databaseHandler.viewRecord()[position]
-
+        val databaseHandler = DataBaseHandler(this)
         // Open new activity to display log file
         val intent = Intent(this, ViewFillLogEntryActivity::class.java)
-        intent.putExtra("EXTRA_ITEM_POSITION", position);
+        intent.putExtra("EXTRA_ITEM_POSITION", position)
         startActivity(intent)
+
     }
 
     /** Function is used to show the list on UI of inserted data.
@@ -69,17 +68,17 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
         // Positive action
         builder.setPositiveButton(R.string.yes_button) { dialogInterface, which ->
 
-            val databaseHandler: DataBaseHandler = DataBaseHandler(this)
+            val databaseHandler = DataBaseHandler(this)
 
             //calling the deleteRecord method of DataBaseHandler class to delete record
             val status = databaseHandler.deleteRecord(FillLogDataClass(fillLogDataClass.id,
                 "",
-                0L,
+                0.0,
                 "",
                 "",
                 "",
                 "",
-                0L,
+                0.0,
                 ""))
             if (status > -1) {
                 Toast.makeText(

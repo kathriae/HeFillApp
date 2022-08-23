@@ -35,8 +35,8 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
         itemPosition = intent.getIntExtra("EXTRA_ITEM_POSITION", -1)
 
         // Access clicked item in database and display in textviews for testing
-        val databaseHandler: DataBaseHandler = DataBaseHandler(this)
-        val spaceString: String = " "
+        val databaseHandler = DataBaseHandler(this)
+        val spaceString = " "
         if(itemPosition > -1){
             val record = databaseHandler.viewRecord()[itemPosition]
 
@@ -69,7 +69,7 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
                         yValuesAsArray.last().roundToInt().toString() + " %"
             }
             findViewById<TextView>(R.id.textViewLogAverageRate).apply{
-                text = getString(R.string.view_log_file_average_rate) + spaceString + record.averageRate.toString() + " % / min"
+                text = getString(R.string.view_log_file_average_rate) + spaceString + String.format("%.2f", record.averageRate) + " % / min"
             }
             findViewById<TextView>(R.id.textViewLogComments).apply{
                 text = getString(R.string.view_log_file_comments) + spaceString + record.comments
@@ -107,8 +107,8 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
 
             // Add horizontal line at target level
             seriesHorizontal.resetData(arrayOf(
-                DataPoint(0.0, record.targetHeLevel.toDouble()),
-                DataPoint(xValuesAsArray.last(), record.targetHeLevel.toDouble())
+                DataPoint(0.0, record.targetHeLevel),
+                DataPoint(xValuesAsArray.last(), record.targetHeLevel)
             ))
             seriesHorizontal.color = R.color.purple_200
             lineGraphView.addSeries(seriesHorizontal)
@@ -116,7 +116,7 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
             // Add linear extrapolation with mean rate
             seriesExtrapolation.resetData(arrayOf(
                 DataPoint(0.0, yValuesAsArray.first()),
-                DataPoint((yLimUpper-yValuesAsArray.first())/ max(record.averageRate.toDouble(), 0.0), yLimUpper)
+                DataPoint((yLimUpper-yValuesAsArray.first())/ max(record.averageRate, 0.0), yLimUpper)
             ))
             seriesExtrapolation.color = R.color.purple_200
             lineGraphView.addSeries(seriesExtrapolation)

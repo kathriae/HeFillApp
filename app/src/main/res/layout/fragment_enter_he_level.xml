@@ -7,32 +7,38 @@
 
     <TextView
         android:id="@+id/headingHeLevelDialog"
-        android:layout_width="259dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="16dp"
-        android:text="Enter He level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="14dp"
+        android:text="@string/enter_he_level"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextNumberHeLevelDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="14dp"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.378"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/headingHeLevelDialog"
         app:layout_constraintTop_toBottomOf="@+id/headingHeLevelDialog" />
 
     <Button
         android:id="@+id/buttonCancelHeLevelDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:text="Cancel"
+        android:layout_marginTop="20dp"
+        android:text="@string/cancel_button"
+        app:layout_constraintStart_toStartOf="@+id/headingHeLevelDialog"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumberHeLevelDialog"
         tools:layout_editor_absoluteX="51dp" />
 
@@ -40,9 +46,10 @@
         android:id="@+id/buttonAddHeLevelDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="112dp"
-        android:text="Add"
-        app:layout_constraintStart_toEndOf="@+id/buttonCancelHeLevelDialog"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="14dp"
+        android:text="@string/add_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumberHeLevelDialog" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

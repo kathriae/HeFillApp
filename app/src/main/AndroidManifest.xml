@@ -11,21 +11,23 @@
         android:theme="@style/Theme.HeFillApp">
         <activity
             android:name=".ViewFillLogEntryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".FillLogActivity"/>
         <activity
             android:name=".FillLogActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FillingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".SetFillParametersActivity"/>
         <activity
             android:name=".SetFillParametersActivity"
             android:exported="false"
-            android:label="@string/enter_fill_parameters" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FillInstructionsActivity"
             android:exported="false"
-            android:label="@string/filling_instructions"
             android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->

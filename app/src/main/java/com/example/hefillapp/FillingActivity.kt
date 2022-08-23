@@ -9,6 +9,7 @@ import com.example.hefillapp.com.example.hefillapp.DataBaseHandler
 import com.example.hefillapp.com.example.hefillapp.FillLogDataClass
 import com.google.gson.Gson
 import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.GridLabelRenderer
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import java.time.Duration
@@ -25,7 +26,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
     private lateinit var meter: Chronometer
 
     // Constants
-    private val initialXLimUpper: Double = 50.0
+    private val initialXLimUpper: Double = 60.0
     private val initialXLimLower: Double = 0.0
     private val yLimLower: Double = 20.0
     private val yLimUpper: Double = 100.0
@@ -37,7 +38,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
     private val seriesExtrapolation: LineGraphSeries<DataPoint> = LineGraphSeries()
     private var timeStart: LocalTime = LocalTime.now()
     private lateinit var timeNow: LocalTime
-    private var elapsedTimeSeconds: Double = 0.0
+    private var elapsedTimeMinutes: Double = 0.0
     private var meanRate = 0.0
     private lateinit var targetLevel: String
     private lateinit var magnetType: String
@@ -55,6 +56,21 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         targetLevel = intent.getStringExtra("EXTRA_TARGET_LEVEL").toString()
         magnetType = intent.getStringExtra("EXTRA_MAGNET_TYPE").toString()
         fillOperator = intent.getStringExtra("EXTRA_OPERATOR").toString()
+        val date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yy"))
+
+        // Set textviews
+        findViewById<TextView>(R.id.textViewTitleFilling).apply{
+            text = date
+        }
+        findViewById<TextView>(R.id.textViewFillingMagnet).apply{
+            text = getString(R.string.view_log_file_magnet) + " " + magnetType
+        }
+        findViewById<TextView>(R.id.textViewFillingOperator).apply{
+            text = getString(R.string.view_log_file_operator) + " " + fillOperator
+        }
+        findViewById<TextView>(R.id.textViewFillingTargetLevel).apply{
+            text = getString(R.string.view_log_file_target_level) + " " + targetLevel + " %"
+        }
 
         //Chronometer
         findViewById<Chronometer>(R.id.chronometer).also { meter = it }
@@ -108,14 +124,14 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
             if(clickCount == 0) {
                 timeStart = LocalTime.now()
                 timeNow = timeStart
-                elapsedTimeSeconds = Duration.between(timeStart, timeNow).seconds.toDouble()
+                elapsedTimeMinutes = Duration.between(timeStart, timeNow).seconds.toDouble()/60.0
 
                 // Start Chronometer to show elapsed time
                 meter.start()
             }
             else {
                 timeNow = LocalTime.now()
-                elapsedTimeSeconds = Duration.between(timeStart, timeNow).seconds.toDouble()
+                elapsedTimeMinutes = Duration.between(timeStart, timeNow).seconds.toDouble()/60.0
             }
 
             // Open adding He level dialog popup
@@ -130,17 +146,15 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
 
             // If data points present: open save log file dialog
             if(listX.size > 0) {
-                // Create Fill Log Data class to be saved in log file
-                val date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yy"))
                 // Convert arraylists containing x and y values to string to store in SQLite
                 val gson = Gson()
                 val xValuesAsString = gson.toJson(listX)
                 val yValuesAsString = gson.toJson(listY)
 
-                val fillLogDataClass: FillLogDataClass = FillLogDataClass(0,
+                val fillLogDataClass = FillLogDataClass(0,
                     dateAsString = date,
-                    targetHeLevel= targetLevel.toLong(),
-                    averageRate = meanRate.toLong(),
+                    targetHeLevel= targetLevel.toDouble(),
+                    averageRate = meanRate,
                     heLevelValuesAsString = yValuesAsString,
                     timeValuesAsString = xValuesAsString,
                     operator = fillOperator,
@@ -165,33 +179,32 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
     override fun receiveHeLevel(HeLevel: Double) {
 
         // Add point to data series
-        seriesData.appendData(DataPoint(elapsedTimeSeconds, HeLevel), false, maxDataPoints)
+        seriesData.appendData(DataPoint(elapsedTimeMinutes, HeLevel), false, maxDataPoints)
 
         //reset the axis limits if necessary
-        if (elapsedTimeSeconds > initialXLimUpper) {
-            lineGraphView.viewport.setMaxX(elapsedTimeSeconds + 10.0)
+        if (elapsedTimeMinutes > initialXLimUpper) {
+            lineGraphView.viewport.setMaxX(elapsedTimeMinutes + 10.0)
 
             // Extend horizontal line for target Level
             seriesHorizontal.resetData(arrayOf(
                 DataPoint(initialXLimLower, targetLevel.toDouble()),
-                DataPoint(elapsedTimeSeconds + 10.0, targetLevel.toDouble())
+                DataPoint(elapsedTimeMinutes + 10.0, targetLevel.toDouble())
             ))
         }
 
         // Add current data to list
         listX.clear()
         listY.clear()
-        for (element in seriesData.getValues(0.0, elapsedTimeSeconds)) {
+        for (element in seriesData.getValues(0.0, elapsedTimeMinutes)) {
             listX.add(element.x)
             listY.add(element.y)
         }
 
         // Compute filling rate
-        var lastRate: Double = 0.0
+        var lastRate = 0.0
         val deltaX = DoubleArray(listX.size -1)
-        var deltaTarget: Double = 0.0
-        var expTimeAtLastRate: Double = 0.0
-        var expTimeAtMeanRate: Double = 0.0
+        var expTimeAtLastRate = 0.0
+        var expTimeAtMeanRate = 0.0
         // Reset average filling rate
         meanRate = 0.0
         if (listX.size > 1){
@@ -202,7 +215,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
             meanRate /= (listX.size - 1).toDouble()
 
             // Compute expected time
-            deltaTarget = targetLevel.toDouble() - listY.last()
+            var deltaTarget = targetLevel.toDouble() - listY.last()
             deltaTarget = max(0.0, deltaTarget)
             expTimeAtMeanRate = deltaTarget/meanRate
             expTimeAtLastRate = deltaTarget/lastRate
@@ -215,11 +228,14 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
 
         }
 
-        // Update Text view
-        val textView = findViewById<TextView>(R.id.textView2).apply {
-            text = "Average Rate: " + meanRate.toString() + " , Current Rate: " + lastRate.toString() +
-                    ", diff to target: " + deltaTarget.toString() + " ,to go at mean:" + expTimeAtMeanRate.toString() +
-                    " , to go at current: " + expTimeAtLastRate.toString()
+        // Update Text views with rates
+        findViewById<TextView>(R.id.textViewFillingAverageRate).apply {
+            text = getString(R.string.view_log_file_average_rate) + " " + String.format("%.2f", meanRate) +
+                    "% / min ( " + String.format("%.1f", expTimeAtMeanRate) + " " + getString(R.string.text_fill_time_to_go) + ")"
+        }
+        findViewById<TextView>(R.id.textViewFillingCurrentRate).apply {
+            text = getString(R.string.view_log_file_current_rate) + " " + String.format("%.2f", lastRate)+
+                    " % / min ( " + String.format("%.1f", expTimeAtLastRate) + " " + getString(R.string.text_fill_time_to_go) + ")"
         }
 
         // Update Progress Bar
@@ -256,7 +272,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
 
     //Method for saving new entry in fill log
     private fun addRecord(fillLogDataClass: FillLogDataClass) {
-        val databaseHandler: DataBaseHandler = DataBaseHandler(this)
+        val databaseHandler = DataBaseHandler(this)
         if (!fillLogDataClass.dateAsString.isEmpty()) {
             val status =
                 databaseHandler.addLogEntry(FillLogDataClass(0,

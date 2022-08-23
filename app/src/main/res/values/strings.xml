@@ -12,12 +12,15 @@
     <string name="add_comment_ok_button">OK</string>
     <string name="yes_button">Yes</string>
     <string name="no_button">No</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="add_button">Add</string>
     <!-- Text -->
-    <string name="filling_instructions">Filling instructions</string>
+    <string name="filling_instructions_title">Filling instructions</string>
     <string name="enter_fill_parameters">Enter fill parameters</string>
-    <string name="plot_He_level_Xlabel">Time [s]</string>
+    <string name="plot_He_level_Xlabel">Time [min]</string>
     <string name="plot_He_level_YLabel">He Level [%]</string>
     <string name="item_title_fill_log">Log file:</string>
+    <string name="item_date">Date</string>
     <string name="header_fill_log_activity">Fill log files</string>
     <string name="header_magnet_spinner">Select Magnet</string>
     <string name="header_fill_operator">Operator</string>
@@ -31,17 +34,53 @@
     <string name="message_record_deleted">Log file deleted</string>
     <string name="view_log_file_magnet">Magnet:</string>
     <string name="view_log_file_operator">Operator:</string>
-    <string name="view_log_file_target_level">Target level:</string>
+    <string name="view_log_file_target_level">Target He level:</string>
     <string name="view_log_file_total_duration">Fill duration:</string>
     <string name="view_log_file_fill_levels">Filled:</string>
     <string name="view_log_file_average_rate">Average rate:</string>
+    <string name="view_log_file_current_rate">Current rate:</string>
     <string name="view_log_file_comments">Comments:</string>
+    <string name="text_fill_time_to_go">min to go</string>
+    <string name="enter_he_level">Enter He level</string>
     <!-- Options -->
+    <string name="default_target_level">95</string>
     <string-array name="magnets_array">
         <item>850 MHz new</item>
         <item>850 MHz old</item>
         <item>600 MHz</item>
         <item>Other</item>
     </string-array>
-    <string name="target_he_level">Target He level:</string>
+    <string name="target_he_level">Target He level [%]</string>
+    <!-- Filling Instructions -->
+    <string name="filling_instructions">
+        \u2022 Switch magnet to He fill mode on magnet control computer
+        \n\u2022 Record magnet data in logbook
+        \n\u2022 Turn flowmeter off (yellow light turns on when meter is off)
+        \n\u2022 Open He valve on top of magnet
+        \n\u2022 Get He Dewar from D floor
+        \n\u2022 Wait until pressure P2 is below 980 mbar and stable
+        \n\u2022 Check that pressure P3 > P2
+        \n\u2022 Attach He dewar to recovery
+        \n\u2022 Press red button to open recovery system
+        \n\u2022 Open gaseous He valve on wall (make sure needle valve is closed and green light off)
+        \n\u2022 Heat upper part of transfer line, remove and check O-ring, take brass plug out to open
+                 transfer line
+        \n\u2022 Open He port on magnet: only remove black plug then quickly insert transfer line and
+                 re-insert the brass plug
+        \n\u2022 Insert lower part of transfer line in the He Dewar with output port fully open until He
+                 flame is visible
+        \n\u2022 Connect upper and lower part of transfer line with output port of transfer line VERY
+                 open
+        \n\u2022 Slowly open transfer line (monitor pressure P2 and avoid pressure spike)
+        \n\u2022 Press green button to close He recovery system
+        \n\u2022 Slowly open needle valve and regulate pressure P2 around 1040 mbar
+        \n\u2022 Monitor the fill, keep an eye on the pressure, when the dewar is empty the pressure
+                 P2 will spike, so be ready to stop the fill
+        \n\u2022 Stop the fill: close output port of transfer line on top of magnet, turn green button
+                 off and close needle valve (red button should remain on)
+        \n\u2022 Remove transfer lines
+        \n\u2022 Return He Dewar
+        \n\u2022 Close He valve on top of magnet
+        \n\u2022 Turn flowmeter on (yellow light off)
+    </string>
 </resources>

@@ -5,7 +5,7 @@ package com.example.hefillapp.com.example.hefillapp
  * magnet type, operator, target level and average rate as Long, comments
  */
 
-class FillLogDataClass(val id: Int, val dateAsString: String, val targetHeLevel: Long,
+class FillLogDataClass(val id: Int, val dateAsString: String, val targetHeLevel: Double,
                        val timeValuesAsString: String, val heLevelValuesAsString: String,
-                       val magnetType: String, val operator: String, val averageRate: Long,
+                       val magnetType: String, val operator: String, val averageRate: Double,
                        var comments: String)

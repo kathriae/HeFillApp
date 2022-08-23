@@ -92,8 +92,8 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
         var id: Int
         var date: String
-        var target_he_level: Long
-        var average_rate: Long
+        var target_he_level: Double
+        var average_rate: Double
         var time_values_as_string: String
         var he_level_values_as_string: String
         var operator: String
@@ -104,8 +104,8 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             do {
                 id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
                 date = cursor.getString(cursor.getColumnIndex(KEY_DATE))
-                target_he_level = cursor.getLong(cursor.getColumnIndex(KEY_TARGET_HE_LEVEL))
-                average_rate = cursor.getLong(cursor.getColumnIndex(KEY_RATE))
+                target_he_level = cursor.getDouble(cursor.getColumnIndex(KEY_TARGET_HE_LEVEL))
+                average_rate = cursor.getDouble(cursor.getColumnIndex(KEY_RATE))
                 time_values_as_string = cursor.getString(cursor.getColumnIndex(KEY_TIME_VALUES))
                 he_level_values_as_string = cursor.getString(cursor.getColumnIndex(KEY_HE_LEVEL_VALUES))
                 operator = cursor.getString(cursor.getColumnIndex(KEY_OPERATOR))

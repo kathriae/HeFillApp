@@ -7,79 +7,109 @@
     tools:context=".SetFillParametersActivity">
 
     <TextView
-        android:id="@+id/textViewHeaderMagnetSpinning"
+        android:id="@+id/textViewSetFillParamHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="@string/header_magnet_spinner"
+        android:text="@string/enter_fill_parameters"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewHeaderMagnetSpinning"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewHeaderMagnetSpinning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:textSize = "20sp"
+        android:text="@string/header_magnet_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSetFillParamHeader"/>
+
     <Spinner
         android:id="@+id/magnets_spinner"
-        android:layout_width="363dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintTop_toBottomOf="@+id/textViewHeaderMagnetSpinning" />
 
     <TextView
         android:id="@+id/textViewTargetLevel"
-        android:layout_width="198dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
-        android:text= "@string/target_he_level"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumberTargetLevel"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/target_he_level"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewHeaderMagnetSpinning"
         app:layout_constraintTop_toBottomOf="@+id/magnets_spinner" />
 
     <EditText
         android:id="@+id/editTextNumberTargetLevel"
-        android:layout_width="117dp"
-        android:layout_height="70dp"
-        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="5"
         android:inputType="number"
-        android:text="95"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewTargetLevel"
+        android:text="@string/default_target_level"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textViewTargetLevel" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTargetLevel" />
 
     <TextView
         android:id="@+id/textViewFillOperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="0dp"
         android:text="@string/header_fill_operator"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTargetLevel" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewHeaderMagnetSpinning"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberTargetLevel" />
 
     <EditText
         android:id="@+id/editTextOperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_marginTop="16dp"
+        android:ems="5"
         android:inputType="textPersonName"
         android:text="@string/default_fill_operator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFillOperator" />
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFillOperator"  />
 
     <Button
         android:id="@+id/button_start_He_fill"
-        android:layout_width="190dp"
-        android:layout_height="88dp"
-        android:layout_marginBottom="72dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginBottom="60dp"
         android:text="@string/start_fill_button"
+        android:textSize="20sp"
         android:onClick="startNewFill"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

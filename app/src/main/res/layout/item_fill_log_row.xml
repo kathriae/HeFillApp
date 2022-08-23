@@ -17,13 +17,13 @@
 
     <TextView
         android:id="@+id/textViewLogItem"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="2"
-        android:text="TextView"
+        android:text="@string/item_date"
         android:textSize="18sp"
         tools:Text="Item" />
 
@@ -34,7 +34,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginVertical="4dp"
         android:layout_gravity="end"
-        android:contentDescription="image"
         android:scaleType="center"
         app:srcCompat="@android:drawable/ic_menu_delete"
         tools:src="@android:drawable/ic_menu_delete"
