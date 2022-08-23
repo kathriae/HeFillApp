@@ -7,13 +7,35 @@
     <string name="fill_instructions_button">He fill instructions</string>
     <string name="measure_he_level_button">Measure He Level</string>
     <string name="stop_fill_button">Stop Fill</string>
+    <string name="stop_fill_dialog_save_log_button">Yes</string>
+    <string name="stop_fill_dialog_no_save_log_button">No</string>
+    <string name="add_comment_ok_button">OK</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
     <!-- Text -->
     <string name="filling_instructions">Filling instructions</string>
     <string name="enter_fill_parameters">Enter fill parameters</string>
     <string name="plot_He_level_Xlabel">Time [s]</string>
     <string name="plot_He_level_YLabel">He Level [%]</string>
-    <string name="item_title_fill_log">Log file</string>
+    <string name="item_title_fill_log">Log file:</string>
     <string name="header_fill_log_activity">Fill log files</string>
+    <string name="header_magnet_spinner">Select Magnet</string>
+    <string name="header_fill_operator">Operator</string>
+    <string name="default_fill_operator">KAAB</string>
+    <string name="header_add_comment_dialog">Add comments</string>
+    <string name="header_stop_fill_dialog">Stop He fill</string>
+    <string name="save_log_file_dialog">Do you want to save a log file?</string>
+    <string name="message_log_file_added">He log file added.</string>
+    <string name="header_delete_log_dialog">Delete log file</string>
+    <string name="message_delete_log_dialog">Are you sure you want to delete the fill log file from:</string>
+    <string name="message_record_deleted">Log file deleted</string>
+    <string name="view_log_file_magnet">Magnet:</string>
+    <string name="view_log_file_operator">Operator:</string>
+    <string name="view_log_file_target_level">Target level:</string>
+    <string name="view_log_file_total_duration">Fill duration:</string>
+    <string name="view_log_file_fill_levels">Filled:</string>
+    <string name="view_log_file_average_rate">Average rate:</string>
+    <string name="view_log_file_comments">Comments:</string>
     <!-- Options -->
     <string-array name="magnets_array">
         <item>850 MHz new</item>

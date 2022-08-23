@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hefillapp.FillLogActivity
 import com.example.hefillapp.R
@@ -33,7 +32,7 @@ class ItemAdapter(val context: Context, val items: ArrayList<FillLogDataClass>,
         val item = items.get(position)
 
         // Get value to display from FillLogDataClass
-        holder.tvItem.text = item.name
+        holder.tvItem.text = item.dateAsString
 
         // Define action for delete button
         holder.ivDelete.setOnClickListener { view ->

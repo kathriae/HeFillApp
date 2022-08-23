@@ -18,26 +18,22 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
         setContentView(R.layout.activity_fill_log)
 
         // Show recycler view with fill log entries
-        setupListofDataIntoRecyclerView()
+        setupListOfDataIntoRecyclerView()
     }
 
     private fun getItemsList(): ArrayList<FillLogDataClass> {
-        //creating the instance of DatabaseHandler class
         val databaseHandler: DataBaseHandler = DataBaseHandler(this)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
+        // Get list of records in database
         val RecordList: ArrayList<FillLogDataClass> = databaseHandler.viewRecord()
-
         return RecordList
     }
 
-    // interface method to define what happens upon clicking item in recyclerview
+    // Interface for itemClick in RecyclerView
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "pressed item no $position", Toast.LENGTH_SHORT).show()
         val databaseHandler: DataBaseHandler = DataBaseHandler(this)
         val record = databaseHandler.viewRecord()[position]
-        Toast.makeText(this, "final he level of item ${record.final_he_level}", Toast.LENGTH_SHORT).show()
 
-        // Open new activity
+        // Open new activity to display log file
         val intent = Intent(this, ViewFillLogEntryActivity::class.java)
         intent.putExtra("EXTRA_ITEM_POSITION", position);
         startActivity(intent)
@@ -45,7 +41,8 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
 
     /** Function is used to show the list on UI of inserted data.
     */
-    private fun setupListofDataIntoRecyclerView() {
+    private fun setupListOfDataIntoRecyclerView() {
+
         // Show recycler View if entries are present
         if (getItemsList().size > 0) {
             // Set the LayoutManager that this RecyclerView will use.
@@ -56,44 +53,48 @@ class FillLogActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener {
             findViewById<RecyclerView>(R.id.recyclerViewLogItems).adapter = itemAdapter
         } else {
             findViewById<RecyclerView>(R.id.recyclerViewLogItems).isInvisible = true
-            Toast.makeText(
-                applicationContext,
-                "No entries to show.",
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 
     // Called when delete icon is pressed: opens dialog
     fun deleteRecordAlertDialog(fillLogDataClass: FillLogDataClass) {
         val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
-        builder.setTitle("Delete Record")
-        //set message for alert dialog
-        builder.setMessage("Are you sure you wants to delete ${fillLogDataClass.name}.")
+        //  Title for alert dialog
+        builder.setTitle(R.string.header_delete_log_dialog)
+        // Message for alert dialog
+        val message: String = getString(R.string.message_delete_log_dialog) + " " + fillLogDataClass.dateAsString
+        builder.setMessage(message)
         builder.setIcon(android.R.drawable.ic_dialog_alert)
 
-        //performing positive action
-        builder.setPositiveButton("Yes") { dialogInterface, which ->
+        // Positive action
+        builder.setPositiveButton(R.string.yes_button) { dialogInterface, which ->
 
-            //creating the instance of DatabaseHandler class
             val databaseHandler: DataBaseHandler = DataBaseHandler(this)
+
             //calling the deleteRecord method of DataBaseHandler class to delete record
-            val status = databaseHandler.deleteRecord(FillLogDataClass(fillLogDataClass.id, "", 0L))
+            val status = databaseHandler.deleteRecord(FillLogDataClass(fillLogDataClass.id,
+                "",
+                0L,
+                "",
+                "",
+                "",
+                "",
+                0L,
+                ""))
             if (status > -1) {
                 Toast.makeText(
                     applicationContext,
-                    "Record deleted successfully.",
+                    R.string.message_record_deleted,
                     Toast.LENGTH_LONG
                 ).show()
                 // Reload recycler view and only show remaining entries
-                setupListofDataIntoRecyclerView()
+                setupListOfDataIntoRecyclerView()
             }
 
             dialogInterface.dismiss()
         }
         //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
+        builder.setNegativeButton(R.string.no_button) { dialogInterface, which ->
             dialogInterface.dismiss()
         }
         // Create the AlertDialog

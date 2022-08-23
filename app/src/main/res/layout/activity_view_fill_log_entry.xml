@@ -7,21 +7,124 @@
     tools:context=".ViewFillLogEntryActivity">
 
     <TextView
-        android:id="@+id/textView_test"
+        android:id="@+id/textViewTitleViewLogFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/item_title_fill_log"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_test2"
+        android:id="@+id/textViewLogMagnet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/view_log_file_magnet"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleViewLogFile" />
+
+    <TextView
+        android:id="@+id/textViewLogOperator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_operator"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogMagnet"/>
+
+    <TextView
+        android:id="@+id/textViewLogTargetLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_target_level"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogOperator"/>
+
+    <TextView
+        android:id="@+id/textViewLogFillDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_total_duration"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogTargetLevel"/>
+
+    <TextView
+        android:id="@+id/textViewLogFillLevels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_fill_levels"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogFillDuration"/>
+
+    <TextView
+        android:id="@+id/textViewLogAverageRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_average_rate"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogFillLevels"/>
+
+    <TextView
+        android:id="@+id/textViewLogComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/view_log_file_comments"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogAverageRate"/>
+
+    <!--line graph view for displaying our data-->
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/idGraphViewFillLog"
+        android:layout_width="match_parent"
+        android:layout_height="390dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_below="@id/textViewLogComments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_test" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogComments"
+        app:layout_constraintVertical_bias="0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

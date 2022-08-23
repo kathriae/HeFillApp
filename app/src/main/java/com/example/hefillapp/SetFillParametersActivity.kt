@@ -31,9 +31,11 @@ class SetFillParametersActivity : AppCompatActivity() {
     fun startNewFill(view: View) {
         val targetLevel = findViewById<EditText>(R.id.editTextNumberTargetLevel).text.toString()
         val magnetType = findViewById<Spinner>(R.id.magnets_spinner).selectedItem.toString()
+        val operator = findViewById<EditText>(R.id.editTextOperator).text.toString()
         val intent = Intent(this, FillingActivity::class.java).apply {
             putExtra("EXTRA_TARGET_LEVEL", targetLevel)
             putExtra("EXTRA_MAGNET_TYPE", magnetType)
+            putExtra("EXTRA_OPERATOR", operator)
         }
         startActivity(intent)
     }
