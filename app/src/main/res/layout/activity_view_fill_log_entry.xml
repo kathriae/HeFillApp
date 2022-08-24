@@ -115,8 +115,8 @@
     <com.jjoe64.graphview.GraphView
         android:id="@+id/idGraphViewFillLog"
         android:layout_width="match_parent"
-        android:layout_height="390dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="40dp"
         android:layout_below="@id/textViewLogComments"
