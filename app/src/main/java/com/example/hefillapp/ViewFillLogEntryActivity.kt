@@ -94,7 +94,7 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
             seriesData.thickness = 8
             // Set limits and axes
             lineGraphView.viewport.setMinX(0.0)
-            lineGraphView.viewport.setMaxX(xValuesAsArray.last())
+            lineGraphView.viewport.setMaxX(xValuesAsArray.last() + 5.0)
             lineGraphView.viewport.setMinY(yLimLower)
             lineGraphView.viewport.setMaxY(yLimUpper)
             lineGraphView.viewport.isYAxisBoundsManual = true
