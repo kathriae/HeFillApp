@@ -94,7 +94,7 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
             seriesData.thickness = 8
             // Set limits and axes
             lineGraphView.viewport.setMinX(0.0)
-            lineGraphView.viewport.setMaxX(xValuesAsArray.last() + 5.0)
+            lineGraphView.viewport.setMaxX(xValuesAsArray.last() + 2.0)
             lineGraphView.viewport.setMinY(yLimLower)
             lineGraphView.viewport.setMaxY(yLimUpper)
             lineGraphView.viewport.isYAxisBoundsManual = true
@@ -108,7 +108,7 @@ class ViewFillLogEntryActivity : AppCompatActivity() {
             // Add horizontal line at target level
             seriesHorizontal.resetData(arrayOf(
                 DataPoint(0.0, record.targetHeLevel),
-                DataPoint(xValuesAsArray.last(), record.targetHeLevel)
+                DataPoint(xValuesAsArray.last()+2.0, record.targetHeLevel)
             ))
             seriesHorizontal.color = R.color.purple_200
             lineGraphView.addSeries(seriesHorizontal)
