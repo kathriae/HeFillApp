@@ -2,6 +2,7 @@ package com.example.hefillapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -127,6 +128,7 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
                 elapsedTimeMinutes = Duration.between(timeStart, timeNow).seconds.toDouble()/60.0
 
                 // Start Chronometer to show elapsed time
+                meter.base = SystemClock.elapsedRealtime()
                 meter.start()
             }
             else {
