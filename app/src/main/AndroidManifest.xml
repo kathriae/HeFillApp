@@ -11,6 +11,7 @@
         android:theme="@style/Theme.HeFillApp">
         <activity
             android:name=".ViewFillLogEntryActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:parentActivityName=".FillLogActivity"/>
         <activity
@@ -19,11 +20,13 @@
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FillingActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:parentActivityName=".SetFillParametersActivity"/>
         <activity
             android:name=".SetFillParametersActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FillInstructionsActivity"

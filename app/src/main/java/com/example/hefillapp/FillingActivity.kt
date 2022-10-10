@@ -243,6 +243,14 @@ class FillingActivity : AppCompatActivity(), dialog_fragment_enter_he_level.NewH
         // Update Progress Bar
         progressBarHeLevel.progress = listY.last().toInt()
 
+        // Show Toast if target level is reached
+        if(HeLevel.toDouble() >= targetLevel.toDouble()) {
+            Toast.makeText(
+                applicationContext,
+                "Great job ! " + ("\ud83e\udd73") + ("\ud83e\udd73") + ("\ud83e\udd73"),
+                Toast.LENGTH_LONG
+            ).show();
+        }
     }
 
     // Dialog to open when stop button is pressed
